@@ -46,6 +46,12 @@ ALL UI components MUST use dark theme colors:
 - Use semantic grouping: layout, spacing, colors, typography
 - Keep utility combinations readable and maintainable
 
+## Comments
+
+- Use comments in `.astro` and CSS only for intent, browser/workaround constraints, or non-obvious design decisions.
+- Do not comment obvious utility classes or restate what the markup already expresses.
+- Keep comments current when styles or component structure change.
+
 ## Modern UI Patterns
 
 - Rounded corners: `rounded-lg`, `rounded-xl`, `rounded-2xl`

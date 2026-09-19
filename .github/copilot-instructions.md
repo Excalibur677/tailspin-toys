@@ -14,6 +14,14 @@ This is a crowdfunding platform for games with a developer theme. The applicatio
 
 ## Code standards
 
+### Comments and Documentation
+
+- Comment intent, constraints, and non-obvious decisions — not mechanics that are already clear from the code.
+- Do not add comments that merely paraphrase the next line or block.
+- Treat stale comments as bugs: update or remove them whenever the related code changes.
+- Add TSDoc/JSDoc to every exported function in `db/` and `src/lib/`, including its purpose, parameters, and return value. Document the injectable `db` parameter explicitly when present.
+- Document the `Props` interface for every reusable `.astro` component so its public contract is clear.
+
 ### Required Before Each Commit
 
 #### Testing guidelines
@@ -34,7 +42,8 @@ This is a crowdfunding platform for games with a developer theme. The applicatio
 
 ### Code formatting requirements
 
-- Use TypeScript with explicit types for function parameters and return values, especially in the data layer (`db/`, `src/lib/`)
+- Use TypeScript with explicit types for function parameters and return values, especially in the data layer (`db/`, `src/lib/`). ESLint enforces explicit types at exported module boundaries in those directories.
+- Keep imports grouped consistently, match the surrounding file's indentation and quote style, and let ESLint be the consistency gate for configured rules; do not introduce a second formatter without documenting its scope.
 - Frontend code (TypeScript, Astro) must pass ESLint checks (`npm run lint`)
 
 ### Data Layer Patterns (Drizzle + Node SQLite)
