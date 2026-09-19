@@ -1,7 +1,7 @@
-import { eq, asc } from 'drizzle-orm';
+import { and, asc, eq, inArray } from 'drizzle-orm';
 import type { Database } from './db';
 import { games, categories, publishers } from '../../db/schema';
-import type { Game } from '../types/game';
+import type { Category, Game, Publisher } from '../types/game';
 
 const gameSelection = {
     id: games.id,
@@ -50,9 +50,47 @@ function baseGamesQuery(db: Database) {
         .leftJoin(publishers, eq(games.publisherId, publishers.id));
 }
 
-/** All games ordered by title. */
-export async function getAllGames(db: Database): Promise<Game[]> {
-    const rows = await baseGamesQuery(db).orderBy(asc(games.title));
+function applyFilters(
+    query: ReturnType<typeof baseGamesQuery>,
+    categoryIds: number[] = [],
+    publisherIds: number[] = [],
+) {
+    const clauses = [];
+
+    if (categoryIds.length > 0) {
+        clauses.push(inArray(games.categoryId, categoryIds));
+    }
+
+    if (publisherIds.length > 0) {
+        clauses.push(inArray(games.publisherId, publisherIds));
+    }
+
+    if (clauses.length === 0) {
+        return query;
+    }
+
+    return query.where(and(...clauses));
+}
+
+/** Return all categories ordered by name for filter controls. */
+export async function getAllCategories(db: Database): Promise<Category[]> {
+    const rows = await db.select({ id: categories.id, name: categories.name }).from(categories).orderBy(asc(categories.name));
+    return rows;
+}
+
+/** Return all publishers ordered by name for filter controls. */
+export async function getAllPublishers(db: Database): Promise<Publisher[]> {
+    const rows = await db.select({ id: publishers.id, name: publishers.name }).from(publishers).orderBy(asc(publishers.name));
+    return rows;
+}
+
+/** All games ordered by title, optionally narrowed by selected category and publisher ids. */
+export async function getAllGames(
+    db: Database,
+    categoryIds: number[] = [],
+    publisherIds: number[] = [],
+): Promise<Game[]> {
+    const rows = await applyFilters(baseGamesQuery(db), categoryIds, publisherIds).orderBy(asc(games.title));
     return rows.map(mapGame);
 }
 
