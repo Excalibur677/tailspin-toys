@@ -73,6 +73,16 @@ npm run lint
 
 ESLint is also run automatically in CI on pull requests to `main`.
 
+## Coding standards
+
+The repository's detailed coding standards live in [`.github/copilot-instructions.md`](.github/copilot-instructions.md) and the scoped files in [`.github/instructions/`](.github/instructions/). They cover:
+
+- Commenting intent and decisions rather than restating code, and keeping comments current
+- TSDoc/JSDoc for exported data-layer functions and documented `Props` contracts for reusable Astro components
+- TypeScript formatting and explicit exported API types, enforced for `db/` and `src/lib/` by ESLint
+
+Read the applicable instruction file before changing Astro, data-layer, styling, or test code.
+
 ## Type checking
 
 The project runs on **TypeScript 7** (the native Go compiler, `tsgo`) for type checking, adopted side-by-side via the [`@typescript/native-preview`](https://www.npmjs.com/package/@typescript/native-preview) package. The classic `typescript` package is intentionally kept at v6 so ESLint + `typescript-eslint` and `astro check` keep working unchanged — TypeScript 7's programmatic API isn't ready for those tools yet.

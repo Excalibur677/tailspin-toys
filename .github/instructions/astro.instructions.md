@@ -32,6 +32,13 @@ const games = await getAllGames(getDatabase());
 </Layout>
 ```
 
+## Component Contracts and Comments
+
+- Every reusable component must define a `Props` interface in frontmatter.
+- Document the `Props` interface with a concise TSDoc comment describing the component's public contract. Add property-level comments when a prop's meaning, units, allowed values, or optional behavior is not obvious from its name and type.
+- In frontmatter and scripts, comment why a non-obvious decision is needed; do not restate markup, expressions, or control flow.
+- Keep comments current with the component. Update or remove comments in the same change as the related code.
+
 ## Layouts
 
 - Create reusable layout components in `src/layouts/`
@@ -118,5 +125,7 @@ There is no Svelte/React layer. When a page genuinely needs client behaviour, ad
 
 - Keep data fetching in frontmatter (build time); avoid client-side fetching
 - Minimize client-side JavaScript — the default is zero JS shipped
+- Use comments for intent and non-obvious constraints, never to paraphrase markup or expressions.
+- Keep component documentation synchronized with the `Props` interface and rendered behavior.
 - Import and use global CSS styles from layouts
 - Always include a `data-testid` on interactive elements (see `ui.instructions.md`)

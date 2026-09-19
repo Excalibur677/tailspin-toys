@@ -40,4 +40,12 @@ export default [
       parser: tseslint.parser,
     },
   },
+
+  // Exported data-layer APIs require explicit types so their contracts remain stable.
+  {
+    files: ["db/**/*.ts", "src/lib/**/*.ts"],
+    rules: {
+      "@typescript-eslint/explicit-module-boundary-types": "error",
+    },
+  },
 ];

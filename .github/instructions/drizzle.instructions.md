@@ -45,12 +45,17 @@ import { asc, count, eq } from 'drizzle-orm';
 import type { Database } from './db';
 import { games } from '../../db/schema';
 
+/** Return all game IDs in the stable build order. */
 export async function getAllGameIds(db: Database): Promise<number[]> {
   const rows = await db.select({ id: games.id }).from(games).orderBy(asc(games.title));
   return rows.map((r) => r.id);
 }
 ```
 
+- Every exported function in `db/` and `src/lib/` requires a TSDoc/JSDoc comment.
+- The comment must describe the function's purpose, every parameter (including injectable `db` arguments), and its return value. Explain side effects or thrown errors when they are part of the contract.
+- Prefer concise comments that explain intent and constraints. Do not restate an implementation that is already apparent from the function name and types.
+- Keep comments synchronized with behavior; stale documentation is a defect.
 - Always `order by` a stable column (title) so static builds are deterministic.
 - Map raw rows to the app-facing `Game`/`Publisher`/`Category` types in one place; don't leak Drizzle row shapes into components.
 - Keep ordering/lookup logic in `games.ts`, not in pages.

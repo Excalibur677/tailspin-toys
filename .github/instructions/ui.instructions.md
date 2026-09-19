@@ -49,7 +49,13 @@ Refer to technology-specific instruction files:
 - Create reusable components for common UI patterns
 - Keep components focused on a single responsibility
 - Use props for configuration, not duplication
-- Document component APIs with TypeScript types
+- Every reusable `.astro` component must expose a documented `Props` interface in frontmatter.
+- Use TSDoc on the interface to explain the component contract; add property comments only where names and types are insufficient.
+
+### Comments and Documentation
+
+- Explain intent, accessibility reasoning, or non-obvious design decisions — never paraphrase the markup or code.
+- Update or remove comments when the related behavior changes. A stale comment is worse than no comment.
 
 ## Development Workflow
 
